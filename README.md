@@ -16,10 +16,11 @@ Start a new ROS1 workspace, and pull in the necessary repositories,
 ```bash
 mkdir -p ~/client_ws/src
 cd ~/client_ws/src
-git clone https://github.com/open-rmf/free_fleet
+git clone -b clober-dev https://github.com/CLOBOT-Co-Ltd/free_fleet.git
 git clone https://github.com/eclipse-cyclonedds/cyclonedds
 git clone https://github.com/CLOBOT-Co-Ltd/clober_free_fleet.git
 git clone -b noetic-devel https://github.com/CLOBOT-Co-Ltd/clober.git
+git clone -b noetic-devel https://github.com/CLOBOT-Co-Ltd/clobot_msgs.git
 sudo apt-get install ros-noetic-rosgraph-msgs
 sudo apt-get install ros-noetic-rosgraph 
 ```
@@ -34,7 +35,7 @@ Source ROS1 and build,
 ```bash
 cd ~/client_ws
 source /opt/ros/noetic/setup.bash
-colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE
+colcon build --symlink-install
 ```
 
 ### 2.2 Install Free Fleet Server in ROS2 foxy
@@ -43,9 +44,9 @@ Start a new ROS2 workspace, and pull in the necessary repositories,
 ```bash
 mkdir -p ~/server_ws/src
 cd ~/server_ws/src
-git clone https://github.com/open-rmf/free_fleet
+git clone -b clober-dev https://github.com/CLOBOT-Co-Ltd/free_fleet.git
+git clone https://github.com/CLOBOT-Co-Ltd/clober_free_fleet_server.git
 git clone https://github.com/open-rmf/rmf_internal_msgs
-git clone https://github.com/CLOBOT-Co-Ltd/clober_free_fleet.git
 ```
 
 Install all the dependencies through rosdep,
@@ -58,7 +59,7 @@ Source ROS2 and build,
 ```bash
 cd ~/server_ws
 source /opt/ros/foxy/setup.bash
-colcon build --cmake-args -DCMAKE_BUILD_TYPE=RELEASE
+colcon build --symlink-install
 ```
 
 ## 3. Examples
@@ -109,7 +110,7 @@ ros2 topic echo /fleet_states
 Launch the clober free fleet client ROS 1(noetic) :
 ```bash
 source ~/client_ws/install/setup.bash
-roslaunch clober_ff_client_ros1 multi_clober_world_ff.launch
+roslaunch clober_ff_client_ros1 clober_suntech_ff.launch
 ```
 
 Launch the clober free fleet server int ROS 2(foxy) :
@@ -118,6 +119,9 @@ source ~/server_ws/install/setup.bash
 ros2 launch clober_ff_server_ros2 clober_world_ff.xml
 ```
 
+[![Clober Free Fleet Simulation](https://img.youtube.com/vi/Hh-bSrm_ZNc/0.jpg)](https://www.youtube.com/watch?v=Hh-bSrm_ZNc "Clober Free Fleet Simulation")
+
+
 ### 3.4 Commands and Requests
 
 There are 3 types of commands/requests that can be sent to the simulated robots through `free_fleet`.
@@ -125,6 +129,9 @@ There are 3 types of commands/requests that can be sent to the simulated robots 
 #### 3.4.1 Destination Requests
 
 Destination requests : command the robot to go to the single destination
+
+[![Clober Free Fleet Simulation](https://img.youtube.com/vi/dJ_G-Utje3w/0.jpg)](https://www.youtube.com/watch?v=dJ_G-Utje3w "Clober Free Fleet Simulation")
+
 
 ```bash
 ros2 run clober_ff_server_ros2 send_destination_request.py -f FLEET_NAME -r ROBOT_NAME -x 1.725 -y -0.39 --yaw 0.0 -i UNIQUE_TASK_ID
@@ -152,6 +159,9 @@ ros2 run clober_ff_server_ros2 send_path_request.py -f clober -r clober_0 -i pat
 #### 3.4.3 Mode Requests
 
 Mode Requests : command the robot to `pause` or `resume`
+
+[![Clober Free Fleet Simulation](https://img.youtube.com/vi/733UkaXWgEg/0.jpg)](https://www.youtube.com/watch?v=733UkaXWgEg "Clober Free Fleet Simulation")
+
 
 * pause
 ```bash
